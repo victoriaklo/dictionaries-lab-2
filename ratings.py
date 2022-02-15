@@ -1,27 +1,9 @@
 """Restaurant rating lister."""
-
-# put your code here
-def read_ratings(file):
-    new_restaurant = input("name new restaurant: ")
-
-    while True:
-        new_rating = input("new rating: ")
-    
-        try:
-            int_new_rating = int(new_rating)
-            if int_new_rating < 1 or int_new_rating > 5:
-                print("Please enter valid num between 1-5")
-                continue
-            else:
-                break
-        except ValueError:
-            print("Please enter valid num between 1-5")
-            continue
-
+def read_rest_ratings(file):
     restaurant_file = open(file)
 
     rest_and_ratings = {}
-    rest_and_ratings[new_restaurant] = new_rating
+    # rest_and_ratings[new_restaurant] = new_rating
 
     # Reads the ratings in from the file
     for line in restaurant_file:
@@ -39,10 +21,55 @@ def read_ratings(file):
     for name, rating in sorted_tuple:
         print(f"{name} is rated at {rating}.")
     
+    return rest_and_ratings
     restaurant_file.close()
 
 
-read_ratings("scores.txt")
-# Modify the script so that it validates the score users provide when they add a new restaurant and rating. 
-# The rating must be an integer between 1 and 5 (inclusive). 
-# If they enter something invalid, the script should prompt them again.
+
+
+def update_rest_ratings(file):
+    new_restaurant = input("name new restaurant: ")
+
+    while True:
+        new_rating = input("new rating: ")
+    
+        try:
+            int_new_rating = int(new_rating)
+            if int_new_rating < 1 or int_new_rating > 5:
+                print("Please enter valid num between 1-5")
+                continue
+            else:
+                break
+        except ValueError:
+            print("Please enter valid num between 1-5")
+            continue
+        
+    updated_dict = read_rest_ratings(file)
+    updated_dict[new_restaurant] = new_rating
+
+    sorted_updated_tuple= sorted(updated_dict.items())
+
+    for name, rating in sorted_updated_tuple:
+        print(f"{name} is rated at {rating}.")
+
+        
+
+
+def ask_user():
+    while True:
+        user_choice = input(" [1] See all restaurant ratings\n [2] Add and rate a new restaurant\n [q] to quit \n --------\n")
+        
+
+        if user_choice == "1":
+            read_rest_ratings("scores.txt")
+            continue
+        elif user_choice == "2":
+            update_rest_ratings("scores.txt")
+            continue
+        elif user_choice == "q":
+            print("You will exit the program")
+            break
+        else:
+            continue
+
+ask_user()
